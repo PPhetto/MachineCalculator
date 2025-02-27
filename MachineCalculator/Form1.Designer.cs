@@ -50,9 +50,7 @@
             button3 = new Button();
             button4 = new Button();
             label6 = new Label();
-            button5 = new Button();
             textBox10 = new TextBox();
-            listBox3 = new ListBox();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
@@ -62,7 +60,6 @@
             label13 = new Label();
             label14 = new Label();
             label15 = new Label();
-            button6 = new Button();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
@@ -154,6 +151,7 @@
             textBox2.Size = new Size(165, 27);
             textBox2.TabIndex = 10;
             textBox2.TextAlign = HorizontalAlignment.Center;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // textBox3
             // 
@@ -252,16 +250,6 @@
             label6.TabIndex = 23;
             label6.Text = "Result Preview";
             // 
-            // button5
-            // 
-            button5.Location = new Point(346, 115);
-            button5.Name = "button5";
-            button5.Size = new Size(109, 29);
-            button5.TabIndex = 24;
-            button5.Text = "button5";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
-            // 
             // textBox10
             // 
             textBox10.Location = new Point(696, 144);
@@ -269,15 +257,6 @@
             textBox10.Size = new Size(163, 27);
             textBox10.TabIndex = 25;
             textBox10.TextAlign = HorizontalAlignment.Center;
-            // 
-            // listBox3
-            // 
-            listBox3.FormattingEnabled = true;
-            listBox3.Location = new Point(98, 229);
-            listBox3.Name = "listBox3";
-            listBox3.Size = new Size(285, 204);
-            listBox3.TabIndex = 26;
-            listBox3.Visible = false;
             // 
             // label7
             // 
@@ -360,22 +339,11 @@
             label15.TabIndex = 35;
             label15.Text = "P1";
             // 
-            // button6
-            // 
-            button6.Location = new Point(246, 115);
-            button6.Name = "button6";
-            button6.Size = new Size(94, 29);
-            button6.TabIndex = 38;
-            button6.Text = "button6";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(906, 567);
-            Controls.Add(button6);
             Controls.Add(label15);
             Controls.Add(label14);
             Controls.Add(label13);
@@ -385,9 +353,7 @@
             Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
-            Controls.Add(listBox3);
             Controls.Add(textBox10);
-            Controls.Add(button5);
             Controls.Add(label6);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -440,8 +406,6 @@
         private Button button4;
         private Label label6;
         private TextBox textBox10;
-        private Button button5;
-        private ListBox listBox3;
         private Label label8;
         private Label label7;
         private Label label15;
@@ -451,6 +415,5 @@
         private Label label11;
         private Label label10;
         private Label label9;
-        private Button button6;
     }
 }
