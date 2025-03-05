@@ -671,9 +671,19 @@ namespace MachineCalculator
                     {
                         string valueToAdd = mapping[key];
 
-                        if (!newItem.EndsWith("," + valueToAdd))
+                        // ถ้าหากมีมากกว่าหรือเท่ากับ 7 ส่วน (index 6)
+                        if (parts.Length > 6)
                         {
-                            newItem += "," + valueToAdd;
+                            // ถ้ามีค่าในตำแหน่งที่ 6 แล้วให้แทนที่ค่าที่ตำแหน่ง 6 ด้วย valueToAdd
+                            parts[6] = valueToAdd;
+
+                            // รวมส่วนที่เหลือหลังจาก index 6
+                            newItem = string.Join(",", parts);
+                        }
+                        else
+                        {
+                            // ถ้าไม่มี 6 ส่วน ก็เพิ่มค่าที่ตำแหน่ง index 6
+                            newItem += newItem.EndsWith(",") ? valueToAdd : "," + valueToAdd;
                         }
                     }
                 }
