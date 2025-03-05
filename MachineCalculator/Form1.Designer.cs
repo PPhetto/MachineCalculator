@@ -58,6 +58,8 @@
             calculateToolStripMenuItem = new ToolStripMenuItem();
             exportCSVToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
+            button10 = new Button();
+            dataGridView1 = new DataGridView();
             textBox11 = new TextBox();
             label17 = new Label();
             button9 = new Button();
@@ -77,6 +79,7 @@
             label16 = new Label();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -354,6 +357,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(button10);
+            panel1.Controls.Add(dataGridView1);
             panel1.Controls.Add(textBox11);
             panel1.Controls.Add(label17);
             panel1.Controls.Add(button9);
@@ -373,6 +378,27 @@
             panel1.Size = new Size(957, 574);
             panel1.TabIndex = 36;
             panel1.Visible = false;
+            // 
+            // button10
+            // 
+            button10.BackgroundImageLayout = ImageLayout.None;
+            button10.Location = new Point(614, 121);
+            button10.Name = "button10";
+            button10.Size = new Size(59, 29);
+            button10.TabIndex = 18;
+            button10.Text = "Table";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(61, 153);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(612, 303);
+            dataGridView1.TabIndex = 17;
+            dataGridView1.Visible = false;
             // 
             // textBox11
             // 
@@ -582,6 +608,7 @@
             menuStrip1.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -635,5 +662,7 @@
         private Button button9;
         private TextBox textBox11;
         private Label label17;
+        private Button button10;
+        private DataGridView dataGridView1;
     }
 }

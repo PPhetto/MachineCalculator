@@ -157,11 +157,10 @@ namespace MachineCalculator
             {
                 if (double.TryParse(length, out double lengthValue))
                 {
-                    totalValueCal += lengthValue * (1.0 / 1600.0); // คำนวณแล้วบวกเข้า totalValueCal
+                    totalValueCal += lengthValue * (1.0 / 1600.0);
                 }
                 else
                 {
-                    // ถ้าไม่สามารถแปลงเป็น double ได้
                     MessageBox.Show($"Invalid length value: {length}");
                 }
             }
@@ -670,19 +669,14 @@ namespace MachineCalculator
                     if (mapping.ContainsKey(key))
                     {
                         string valueToAdd = mapping[key];
-
-                        // ถ้าหากมีมากกว่าหรือเท่ากับ 7 ส่วน (index 6)
                         if (parts.Length > 6)
                         {
-                            // ถ้ามีค่าในตำแหน่งที่ 6 แล้วให้แทนที่ค่าที่ตำแหน่ง 6 ด้วย valueToAdd
                             parts[6] = valueToAdd;
 
-                            // รวมส่วนที่เหลือหลังจาก index 6
                             newItem = string.Join(",", parts);
                         }
                         else
                         {
-                            // ถ้าไม่มี 6 ส่วน ก็เพิ่มค่าที่ตำแหน่ง index 6
                             newItem += newItem.EndsWith(",") ? valueToAdd : "," + valueToAdd;
                         }
                     }
@@ -799,6 +793,57 @@ namespace MachineCalculator
         private void textBox11_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Visible = !dataGridView1.Visible;
+            listBox3.Visible = !listBox3.Visible;
+
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+
+            dataGridView1.AllowUserToAddRows = false;
+
+            if (listBox3.Items.Count == 0) return;
+
+            string[] columnHeaders = { "ชื่อ", "รหัส", "ค่า1", "ค่า2", "ค่า3", "ค่า4", "ค่า5" };
+
+            string firstRow = listBox3.Items[0].ToString();
+            string[] columns = firstRow.Split(',');
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
+                dataGridView1.Columns.Add("Column" + i, headerName);
+            }
+
+            foreach (var item in listBox3.Items)
+            {
+                string[] rowData = item.ToString().Split(',');
+                dataGridView1.Rows.Add(rowData);
+            }
+
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                bool isEmpty = true;
+
+                foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
+                {
+                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                    {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+
+                if (isEmpty)
+                {
+                    dataGridView1.Rows.RemoveAt(i);
+                }
+            }
+
+            dataGridView1.AllowUserToAddRows = true;
         }
     }
 }
