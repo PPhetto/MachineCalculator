@@ -105,22 +105,23 @@ namespace MachineCalculator
                     listBox1.Items.Add(line); //add line
                 }
 
-                if (line.Contains("材料先端位置"))
-                {
-                    string[] parts = line.Split(new char[] { ']', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                //if (line.Contains("材料先端位置"))
+                //{
+                //    string[] parts = line.Split(new char[] { ']', ')' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    //MessageBox.Show(parts.Length.ToString());
+                //    //MessageBox.Show(parts.Length.ToString());
 
-                    if (parts.Length == 2)
-                    {
-                        string pos = parts[0].Replace("mm", "").Trim();
-                        string length = parts[1].Replace("mm", "").Trim();
+                //    if (parts.Length == 2)
+                //    {
+                //        string pos = parts[0].Replace("mm", "").Trim();
+                //        string length = parts[1].Replace("mm", "").Trim();
 
-                        //MessageBox.Show(length);
+                //        //MessageBox.Show(length);
 
-                        lengths.Add(length);
-                    }
-                }
+                //        lengths.Add(length);
+                //    }
+                //}
+
                 if (line.Contains("ロボット位置"))
                 {
                     string[] parts = line.Split(new char[] { '】' }, StringSplitOptions.RemoveEmptyEntries);
@@ -129,14 +130,48 @@ namespace MachineCalculator
                     {
                         string nemuric = parts[1].Replace("mm", "".Trim());
                         Dvalue = nemuric;
+                        //MessageBox.Show(Dvalue);
                     }
                 }
             }
 
-            double value = double.Parse(lengths[0]);
-            double valueCal = (1.0 / 1600.0);
-            lengthValue = value;
-            textBox8.Text = valueCal.ToString();
+            string targetLine = lines.FirstOrDefault(line => line.Contains("材料先端位置"));
+
+            if (targetLine != null)
+            {
+                string[] parts = targetLine.Split(new char[] { ']', ')' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (parts.Length == 2)
+                {
+                    string pos = parts[0].Replace("mm", "").Trim();
+                    string length = parts[1].Replace("mm", "").Trim();
+
+                    lengths.Add(length);
+                }
+            }
+
+
+            double totalValueCal = 0;
+
+            foreach (string length in lengths)
+            {
+                if (double.TryParse(length, out double lengthValue))
+                {
+                    totalValueCal += lengthValue * (1.0 / 1600.0); // คำนวณแล้วบวกเข้า totalValueCal
+                }
+                else
+                {
+                    // ถ้าไม่สามารถแปลงเป็น double ได้
+                    MessageBox.Show($"Invalid length value: {length}");
+                }
+            }
+
+            // แสดงผลลัพธ์ใน textBox8
+            textBox8.Text = totalValueCal.ToString();
+            ////double value = double.Parse(lengths[0]);
+            //double valueCal = (1.0 / 1600.0);
+            ////lengthValue = value;
+            //textBox8.Text = valueCal.ToString();
 
             if (Dvalue.StartsWith("0"))
             {
@@ -270,13 +305,13 @@ namespace MachineCalculator
             try
             {
                 double P;
-                double A = double.TryParse(textBox3.Text, out double aVal) ? aVal : 0;
-                double B = double.TryParse(textBox4.Text, out double bVal) ? bVal : 0;
-                double C = double.TryParse(textBox5.Text, out double cVal) ? cVal : 0;
-                double D = double.TryParse(textBox6.Text, out double dVal) ? dVal : 0;
-                double E = double.TryParse(textBox7.Text, out double eVal) ? eVal : 0;
-                double F = double.TryParse(textBox8.Text, out double fVal) ? fVal : 0;
-                double G = double.TryParse(textBox9.Text, out double gVal) ? gVal : 0;
+                double A = double.Parse(textBox3.Text);
+                double B = double.Parse(textBox4.Text);
+                double C = double.Parse(textBox5.Text);
+                double D = double.Parse(textBox6.Text);
+                double E = double.Parse(textBox7.Text);
+                double F = double.Parse(textBox8.Text); // length * (1 / 1600)
+                double G = double.Parse(textBox9.Text);
                 double totalP = 0;
 
                 foreach (var item in listBox2.Items)
@@ -296,7 +331,7 @@ namespace MachineCalculator
                     }
                 }
 
-                double calculatedValue = totalP + C * nnn + D + E * nnn + lengthValue * F + G;
+                double calculatedValue = totalP + C * nnn + D + E * nnn + F + G;
                 textBox10.Text = calculatedValue.ToString("F2");
             }
             catch (Exception ex)
@@ -391,12 +426,67 @@ namespace MachineCalculator
 
             listBox4.Items.Clear();
 
+            //while (currentIndex < comboBoxCount)
+            //{
+            //    comboBox1.SelectedIndex = currentIndex;
+
+            //    string Nfile = comboBox1.Text;
+            //    double totalP = 0;
+
+            //    foreach (var item in listBox2.Items)
+            //    {
+            //        string itemText = item.ToString();
+            //        int indexOfEqualSign = itemText.IndexOf("=");
+
+            //        if (indexOfEqualSign >= 0)
+            //        {
+            //            string valueAfterEqualSign = itemText.Substring(indexOfEqualSign + 1).Trim();
+            //            double parsedValue = Convert.ToDouble(valueAfterEqualSign);
+            //            P = parsedValue * A + B;
+            //            totalP += P;
+            //        }
+            //    }
+            //    double calculatedValue = totalP + C * nnn + D + E * nnn + F + G;
+            //    //calculatedValue = Math.Round(calculatedValue);
+            //    string fileNameWithoutExtension = Nfile.Split('.')[0];
+            //    if (fileNameWithoutExtension.StartsWith("0"))
+            //    {
+            //        string modifiedFileName = fileNameWithoutExtension.Substring(1);
+            //        listBox4.Items.Add(modifiedFileName + " = " + calculatedValue.ToString("F2"));
+            //    }
+
+            //    currentIndex++;
+            //}
             while (currentIndex < comboBoxCount)
             {
                 comboBox1.SelectedIndex = currentIndex;
-
                 string Nfile = comboBox1.Text;
                 double totalP = 0;
+                bool allMatch = true;
+
+                foreach (var item in listBox1.Items)
+                {
+                    string line = item.ToString();
+                    if (line.Contains("加工と基本加工"))
+                    {
+                        int colonIndex = line.IndexOf(':');
+                        if (colonIndex >= 0)
+                        {
+                            string valueAfterColon = line.Substring(colonIndex + 1).Trim();
+                            if (valueAfterColon != "RKeraba")
+                            {
+                                allMatch = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!allMatch)
+                {
+                    currentIndex++;
+                    continue;
+                }
 
                 foreach (var item in listBox2.Items)
                 {
@@ -411,12 +501,14 @@ namespace MachineCalculator
                         totalP += P;
                     }
                 }
-                double calculatedValue = totalP + C * nnn + D + E * nnn + lengthValue * F + G;
+
+                double calculatedValue = totalP + C * nnn + D + E * nnn + F + G;
+                //calculatedValue = Math.Round(calculatedValue);
                 string fileNameWithoutExtension = Nfile.Split('.')[0];
                 if (fileNameWithoutExtension.StartsWith("0"))
                 {
                     string modifiedFileName = fileNameWithoutExtension.Substring(1);
-                    listBox4.Items.Add(modifiedFileName + " = " + calculatedValue.ToString("F2") + " [" + nnn + "] ");
+                    listBox4.Items.Add(modifiedFileName + " = " + calculatedValue.ToString("F2"));
                 }
 
                 currentIndex++;
@@ -645,6 +737,18 @@ namespace MachineCalculator
         {
             List<double> valuesList = new List<double>();
             double sumVar = 0;
+            //double cN = listBox3.Items.Count - 1;
+
+            double sumVar2 = 0;
+
+            double cN = 0;
+
+            //if (listBox3.Items.Count > 6)
+            //{
+            //    string lineAtIndex6 = listBox3.Items[6].ToString();
+
+            //    cN++;
+            //}
 
             foreach (var item in listBox3.Items)
             {
@@ -654,21 +758,35 @@ namespace MachineCalculator
                 if (values.Length > 6)
                 {
                     double selectedValue = Convert.ToDouble(values[6]);
+                    cN++;
                     valuesList.Add(selectedValue);
                     sumVar += selectedValue;
                 }
             }
-
+            MessageBox.Show(cN.ToString());
             MessageBox.Show(sumVar.ToString());
 
-            foreach (var VarCal in valuesList)
+            double hCount = sumVar / cN;
+
+            MessageBox.Show(hCount.ToString("F2"));
+
+            foreach (var value in valuesList)
             {
-                double x_ = VarCal - sumVar;
-                MessageBox.Show(x_.ToString());
+                double mns = value - hCount;
+                double h2 = mns * mns;
+                sumVar2 += h2;
             }
+
+            double finalresult = sumVar2 / cN;
+            textBox11.Text = finalresult.ToString();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
         {
 
         }

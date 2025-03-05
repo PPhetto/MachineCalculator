@@ -334,7 +334,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { calculateToolStripMenuItem, exportCSVToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(961, 28);
+            menuStrip1.Size = new Size(957, 28);
             menuStrip1.TabIndex = 35;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -370,7 +370,7 @@
             panel1.Controls.Add(label5);
             panel1.Location = new Point(0, 31);
             panel1.Name = "panel1";
-            panel1.Size = new Size(961, 574);
+            panel1.Size = new Size(957, 574);
             panel1.TabIndex = 36;
             panel1.Visible = false;
             // 
@@ -423,7 +423,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(724, 123);
+            label15.Location = new Point(712, 130);
             label15.Name = "label15";
             label15.Size = new Size(96, 20);
             label15.TabIndex = 9;
@@ -432,7 +432,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(73, 123);
+            label14.Location = new Point(61, 130);
             label14.Name = "label14";
             label14.Size = new Size(121, 20);
             label14.TabIndex = 8;
@@ -442,7 +442,7 @@
             // 
             listBox4.FormattingEnabled = true;
             listBox4.HorizontalScrollbar = true;
-            listBox4.Location = new Point(724, 146);
+            listBox4.Location = new Point(712, 153);
             listBox4.Name = "listBox4";
             listBox4.ScrollAlwaysVisible = true;
             listBox4.Size = new Size(147, 304);
@@ -473,7 +473,7 @@
             // 
             listBox3.FormattingEnabled = true;
             listBox3.HorizontalScrollbar = true;
-            listBox3.Location = new Point(73, 146);
+            listBox3.Location = new Point(61, 153);
             listBox3.Name = "listBox3";
             listBox3.ScrollAlwaysVisible = true;
             listBox3.Size = new Size(612, 304);
