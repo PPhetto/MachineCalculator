@@ -58,6 +58,11 @@
             calculateToolStripMenuItem = new ToolStripMenuItem();
             exportCSVToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
+            textBox13 = new TextBox();
+            button11 = new Button();
+            textBox12 = new TextBox();
+            label19 = new Label();
+            button5 = new Button();
             button10 = new Button();
             dataGridView1 = new DataGridView();
             textBox11 = new TextBox();
@@ -72,11 +77,11 @@
             button6 = new Button();
             listBox3 = new ListBox();
             textBox2 = new TextBox();
-            button5 = new Button();
             label5 = new Label();
             button4 = new Button();
             textBox10 = new TextBox();
             label16 = new Label();
+            textBox14 = new TextBox();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -134,7 +139,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(696, 477);
+            button2.Location = new Point(696, 480);
             button2.Name = "button2";
             button2.Size = new Size(178, 44);
             button2.TabIndex = 7;
@@ -240,11 +245,11 @@
             // 
             button3.BackColor = Color.White;
             button3.ForeColor = Color.Black;
-            button3.Location = new Point(696, 477);
+            button3.Location = new Point(696, 480);
             button3.Name = "button3";
             button3.Size = new Size(178, 44);
             button3.TabIndex = 21;
-            button3.Text = "Send to Export";
+            button3.Text = "Use Result";
             button3.UseVisualStyleBackColor = false;
             button3.Click += button3_Click;
             // 
@@ -337,15 +342,15 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { calculateToolStripMenuItem, exportCSVToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(957, 28);
+            menuStrip1.Size = new Size(960, 28);
             menuStrip1.TabIndex = 35;
             menuStrip1.Text = "menuStrip1";
             // 
             // calculateToolStripMenuItem
             // 
             calculateToolStripMenuItem.Name = "calculateToolStripMenuItem";
-            calculateToolStripMenuItem.Size = new Size(90, 24);
-            calculateToolStripMenuItem.Text = "Calculator";
+            calculateToolStripMenuItem.Size = new Size(84, 24);
+            calculateToolStripMenuItem.Text = "Calculate";
             calculateToolStripMenuItem.Click += calculateToolStripMenuItem_Click;
             // 
             // exportCSVToolStripMenuItem
@@ -357,6 +362,12 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(textBox14);
+            panel1.Controls.Add(textBox13);
+            panel1.Controls.Add(button11);
+            panel1.Controls.Add(textBox12);
+            panel1.Controls.Add(label19);
+            panel1.Controls.Add(button5);
             panel1.Controls.Add(button10);
             panel1.Controls.Add(dataGridView1);
             panel1.Controls.Add(textBox11);
@@ -371,13 +382,55 @@
             panel1.Controls.Add(button6);
             panel1.Controls.Add(listBox3);
             panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(button5);
             panel1.Controls.Add(label5);
             panel1.Location = new Point(0, 31);
             panel1.Name = "panel1";
-            panel1.Size = new Size(957, 574);
+            panel1.Size = new Size(960, 574);
             panel1.TabIndex = 36;
             panel1.Visible = false;
+            // 
+            // textBox13
+            // 
+            textBox13.Location = new Point(149, 518);
+            textBox13.Name = "textBox13";
+            textBox13.Size = new Size(125, 27);
+            textBox13.TabIndex = 22;
+            // 
+            // button11
+            // 
+            button11.Location = new Point(792, 104);
+            button11.Name = "button11";
+            button11.Size = new Size(94, 29);
+            button11.TabIndex = 21;
+            button11.Text = "button11";
+            button11.UseVisualStyleBackColor = true;
+            button11.Click += button11_Click;
+            // 
+            // textBox12
+            // 
+            textBox12.Location = new Point(461, 485);
+            textBox12.Name = "textBox12";
+            textBox12.Size = new Size(190, 27);
+            textBox12.TabIndex = 20;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(380, 488);
+            label19.Name = "label19";
+            label19.Size = new Size(84, 20);
+            label19.TabIndex = 19;
+            label19.Text = "標準偏差 : ";
+            // 
+            // button5
+            // 
+            button5.Location = new Point(61, 67);
+            button5.Name = "button5";
+            button5.Size = new Size(94, 29);
+            button5.TabIndex = 1;
+            button5.Text = "Browse";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button10
             // 
@@ -393,24 +446,24 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(61, 153);
+            dataGridView1.Location = new Point(59, 151);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(612, 303);
+            dataGridView1.Size = new Size(614, 306);
             dataGridView1.TabIndex = 17;
             dataGridView1.Visible = false;
             // 
             // textBox11
             // 
-            textBox11.Location = new Point(117, 485);
+            textBox11.Location = new Point(149, 485);
             textBox11.Name = "textBox11";
-            textBox11.Size = new Size(580, 27);
+            textBox11.Size = new Size(190, 27);
             textBox11.TabIndex = 16;
             // 
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(59, 488);
+            label17.Location = new Point(91, 488);
             label17.Name = "label17";
             label17.Size = new Size(52, 20);
             label17.TabIndex = 15;
@@ -422,13 +475,13 @@
             button9.Name = "button9";
             button9.Size = new Size(106, 27);
             button9.TabIndex = 14;
-            button9.Text = "分散";
+            button9.Text = "Calculate";
             button9.UseVisualStyleBackColor = true;
             button9.Click += button9_Click;
             // 
             // button8
             // 
-            button8.Location = new Point(61, 67);
+            button8.Location = new Point(61, 66);
             button8.Name = "button8";
             button8.Size = new Size(94, 29);
             button8.TabIndex = 13;
@@ -451,18 +504,18 @@
             label15.AutoSize = true;
             label15.Location = new Point(712, 130);
             label15.Name = "label15";
-            label15.Size = new Size(96, 20);
+            label15.Size = new Size(104, 20);
             label15.TabIndex = 9;
-            label15.Text = "Rsult Preview";
+            label15.Text = "Result Preview";
             // 
             // label14
             // 
             label14.AutoSize = true;
             label14.Location = new Point(61, 130);
             label14.Name = "label14";
-            label14.Size = new Size(121, 20);
+            label14.Size = new Size(120, 20);
             label14.TabIndex = 8;
-            label14.Text = ".USV File Preview";
+            label14.Text = ".CSV File Preview";
             // 
             // listBox4
             // 
@@ -477,7 +530,7 @@
             // 
             // button7
             // 
-            button7.Location = new Point(730, 477);
+            button7.Location = new Point(721, 477);
             button7.Name = "button7";
             button7.Size = new Size(129, 43);
             button7.TabIndex = 6;
@@ -491,7 +544,7 @@
             button6.Name = "button6";
             button6.Size = new Size(107, 29);
             button6.TabIndex = 5;
-            button6.Text = "Insert to USV";
+            button6.Text = "Insert to CSV";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
             // 
@@ -513,16 +566,6 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(465, 25);
             textBox2.TabIndex = 2;
-            // 
-            // button5
-            // 
-            button5.Location = new Point(61, 67);
-            button5.Name = "button5";
-            button5.Size = new Size(94, 29);
-            button5.TabIndex = 1;
-            button5.Text = "Browse";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
             // 
             // label5
             // 
@@ -547,12 +590,12 @@
             // 
             // textBox10
             // 
-            textBox10.Enabled = false;
             textBox10.Location = new Point(683, 419);
             textBox10.Name = "textBox10";
             textBox10.Size = new Size(203, 27);
             textBox10.TabIndex = 38;
             textBox10.TextAlign = HorizontalAlignment.Center;
+            textBox10.TextChanged += textBox10_TextChanged_1;
             // 
             // label16
             // 
@@ -563,6 +606,13 @@
             label16.TabIndex = 39;
             label16.Text = "Result";
             label16.Click += label16_Click;
+            // 
+            // textBox14
+            // 
+            textBox14.Location = new Point(461, 518);
+            textBox14.Name = "textBox14";
+            textBox14.Size = new Size(125, 27);
+            textBox14.TabIndex = 23;
             // 
             // Form1
             // 
@@ -664,5 +714,10 @@
         private Label label17;
         private Button button10;
         private DataGridView dataGridView1;
+        private TextBox textBox12;
+        private Label label19;
+        private Button button11;
+        private TextBox textBox13;
+        private TextBox textBox14;
     }
 }

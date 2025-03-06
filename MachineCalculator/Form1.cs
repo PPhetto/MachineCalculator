@@ -260,7 +260,7 @@ namespace MachineCalculator
                         }
                         else
                         {
-                            MessageBox.Show("ข้อมูลไม่ครบถ้วน");
+                            MessageBox.Show("information not equal");
                         }
                         getText++;
                     }
@@ -303,15 +303,24 @@ namespace MachineCalculator
         {
             try
             {
-                double P;
-                double A = double.Parse(textBox3.Text);
-                double B = double.Parse(textBox4.Text);
-                double C = double.Parse(textBox5.Text);
-                double D = double.Parse(textBox6.Text);
-                double E = double.Parse(textBox7.Text);
-                double F = double.Parse(textBox8.Text); // length * (1 / 1600)
-                double G = double.Parse(textBox9.Text);
-                double totalP = 0;
+                double P, A, B, C, D, E, F, G, totalP = 0;
+                double.TryParse(textBox3.Text, out A);
+                double.TryParse(textBox4.Text, out B);
+                double.TryParse(textBox5.Text, out C);
+                double.TryParse(textBox6.Text, out D);
+                double.TryParse(textBox7.Text, out E);
+                double.TryParse(textBox8.Text, out F);
+                double.TryParse(textBox9.Text, out G);
+                //double P;
+                //double A = double.Parse(textBox3.Text);
+                //double B = double.Parse(textBox4.Text);
+                //double C = double.Parse(textBox5.Text);
+                //double D = double.Parse(textBox6.Text);
+                //double E = double.Parse(textBox7.Text);
+                //double F = double.Parse(textBox8.Text); // length * (1 / 1600)
+                //double G = double.Parse(textBox9.Text);
+
+                //double totalP = 0;
 
                 foreach (var item in listBox2.Items)
                 {
@@ -603,9 +612,56 @@ namespace MachineCalculator
                     string lineWithoutSpaces = line.Replace(" ", "");
                     listBox3.Items.Add(lineWithoutSpaces); //add line
                 }
+
+                button5.Visible = false;
+                button8.Visible = true;
             }
-            button5.Visible = false;
-            button8.Visible = true;
+
+
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+
+            dataGridView1.AllowUserToAddRows = false;
+
+            if (listBox3.Items.Count == 0) return;
+
+            string[] columnHeaders = { "名称", "部品番号", "材幅", "材成", "材長", "時間1（S)", "時間2（S)" };
+
+            string firstRow = listBox3.Items[0].ToString();
+            string[] columns = firstRow.Split(',');
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
+                dataGridView1.Columns.Add("Column" + i, headerName);
+            }
+
+            foreach (var item in listBox3.Items)
+            {
+                string[] rowData = item.ToString().Split(',');
+                dataGridView1.Rows.Add(rowData);
+            }
+
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                bool isEmpty = true;
+
+                foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
+                {
+                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                    {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+
+                if (isEmpty)
+                {
+                    dataGridView1.Rows.RemoveAt(i);
+                }
+            }
+
+            dataGridView1.AllowUserToAddRows = true;
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -625,13 +681,16 @@ namespace MachineCalculator
                         }
                     }
 
-                    MessageBox.Show("ไฟล์ CSV ถูกสร้างเรียบร้อยแล้ว", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("The CSV file was successfully created.", "successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("เกิดข้อผิดพลาดในการสร้างไฟล์: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("An error occurred while creating the file:" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+
+
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -688,7 +747,54 @@ namespace MachineCalculator
             listBox3.Items.Clear();
             listBox3.Items.AddRange(updatedItems.ToArray());
 
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+
+            dataGridView1.AllowUserToAddRows = false;
+
+            if (listBox3.Items.Count == 0) return;
+
+            string[] columnHeaders = { "名称", "部品番号", "材幅", "材成", "材長", "時間1（S)", "時間2（S)" };
+
+            string firstRow = listBox3.Items[0].ToString();
+            string[] columns = firstRow.Split(',');
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
+                dataGridView1.Columns.Add("Column" + i, headerName);
+            }
+
+            foreach (var item in listBox3.Items)
+            {
+                string[] rowData = item.ToString().Split(',');
+                dataGridView1.Rows.Add(rowData);
+            }
+
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                bool isEmpty = true;
+
+                foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
+                {
+                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                    {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+
+                if (isEmpty)
+                {
+                    dataGridView1.Rows.RemoveAt(i);
+                }
+            }
+
+            dataGridView1.AllowUserToAddRows = true;
+
+
         }
+
 
         private void listBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -728,6 +834,8 @@ namespace MachineCalculator
         {
             textBox2.Clear();
             listBox3.Items.Clear();
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
             button8.Visible = false;
             button5.Visible = true;
         }
@@ -740,6 +848,8 @@ namespace MachineCalculator
         private void button9_Click(object sender, EventArgs e)
         {
             List<double> valuesList = new List<double>();
+            List<double> valuesList2 = new List<double>();
+            List<double> valuesList3 = new List<double>();
             double sumVar = 0;
             //double cN = listBox3.Items.Count - 1;
 
@@ -762,19 +872,23 @@ namespace MachineCalculator
                 if (values.Length > 6)
                 {
                     double selectedValue = Convert.ToDouble(values[6]);
+                    double selectedValue2 = Convert.ToDouble(values[5]);
+                    double result = selectedValue - selectedValue2;
                     cN++;
                     valuesList.Add(selectedValue);
-                    sumVar += selectedValue;
+                    valuesList2.Add(selectedValue2);
+                    valuesList3.Add(result);
+                    sumVar += result;
                 }
             }
-            MessageBox.Show(cN.ToString());
-            MessageBox.Show(sumVar.ToString());
+            //MessageBox.Show(cN.ToString());
+            //MessageBox.Show(sumVar.ToString());
 
             double hCount = sumVar / cN;
 
-            MessageBox.Show(hCount.ToString("F2"));
+            //MessageBox.Show(hCount.ToString("F2"));
 
-            foreach (var value in valuesList)
+            foreach (var value in valuesList3)
             {
                 double mns = value - hCount;
                 double h2 = mns * mns;
@@ -782,23 +896,11 @@ namespace MachineCalculator
             }
 
             double finalresult = sumVar2 / cN;
-            textBox11.Text = finalresult.ToString();
-        }
+            textBox11.Text = finalresult.ToString("F2");
+            double standardDeviation = Math.Sqrt(finalresult);
+            textBox12.Text = standardDeviation.ToString("F2");
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void textBox11_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            dataGridView1.Visible = !dataGridView1.Visible;
-            listBox3.Visible = !listBox3.Visible;
 
             dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
@@ -807,7 +909,7 @@ namespace MachineCalculator
 
             if (listBox3.Items.Count == 0) return;
 
-            string[] columnHeaders = { "ชื่อ", "รหัส", "ค่า1", "ค่า2", "ค่า3", "ค่า4", "ค่า5" };
+            string[] columnHeaders = { "名称", "部品番号", "材幅", "材成", "材長", "時間1（S)", "時間2（S)" };
 
             string firstRow = listBox3.Items[0].ToString();
             string[] columns = firstRow.Split(',');
@@ -844,6 +946,130 @@ namespace MachineCalculator
             }
 
             dataGridView1.AllowUserToAddRows = true;
+
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Visible = !dataGridView1.Visible;
+            listBox3.Visible = !listBox3.Visible;
+            button10.Text = (button10.Text == "Table") ? "Log" : "Table";
+
+            //dataGridView1.Columns.Clear();
+            //dataGridView1.Rows.Clear();
+
+            //dataGridView1.AllowUserToAddRows = false;
+
+            //if (listBox3.Items.Count == 0) return;
+
+            //string[] columnHeaders = { "ชื่อ", "รหัส", "ค่า1", "ค่า2", "ค่า3", "ค่า4", "ค่า5" };
+
+            //string firstRow = listBox3.Items[0].ToString();
+            //string[] columns = firstRow.Split(',');
+
+            //for (int i = 0; i < columns.Length; i++)
+            //{
+            //    string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
+            //    dataGridView1.Columns.Add("Column" + i, headerName);
+            //}
+
+            //foreach (var item in listBox3.Items)
+            //{
+            //    string[] rowData = item.ToString().Split(',');
+            //    dataGridView1.Rows.Add(rowData);
+            //}
+
+            //for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            //{
+            //    bool isEmpty = true;
+
+            //    foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
+            //    {
+            //        if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+            //        {
+            //            isEmpty = false;
+            //            break;
+            //        }
+            //    }
+
+            //    if (isEmpty)
+            //    {
+            //        dataGridView1.Rows.RemoveAt(i);
+            //    }
+            //}
+
+            //dataGridView1.AllowUserToAddRows = true;
+        }
+
+        private void textBox10_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox12_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            List<double> valuesList = new List<double>();
+            double sumVar = 0;
+            //double cN = listBox3.Items.Count - 1;
+
+            double sumVar2 = 0;
+
+            double cN = 0;
+
+            //if (listBox3.Items.Count > 6)
+            //{
+            //    string lineAtIndex6 = listBox3.Items[6].ToString();
+
+            //    cN++;
+            //}
+
+            foreach (var item in listBox3.Items)
+            {
+                string line = item.ToString();
+                string[] values = line.Split(',');
+
+                if (values.Length > 6)
+                {
+                    double selectedValue = Convert.ToDouble(values[6]);
+                    cN++;
+                    valuesList.Add(selectedValue);
+                    sumVar += selectedValue;
+                }
+            }
+            //MessageBox.Show(cN.ToString());
+            //MessageBox.Show(sumVar.ToString());
+
+            double hCount = sumVar / cN;
+
+            //MessageBox.Show(hCount.ToString("F2"));
+
+            foreach (var value in valuesList)
+            {
+                double mns = value - hCount;
+                double h2 = mns * mns;
+                sumVar2 += h2;
+            }
+
+            double finalresult = sumVar2 / cN;
+            textBox13.Text = finalresult.ToString("F2");
+            double standardDeviation = Math.Sqrt(finalresult);
+            textBox14.Text = standardDeviation.ToString("F2");
         }
     }
 }
