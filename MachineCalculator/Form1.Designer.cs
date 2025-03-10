@@ -58,6 +58,7 @@
             calculateToolStripMenuItem = new ToolStripMenuItem();
             exportCSVToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
+            textBox14 = new TextBox();
             textBox13 = new TextBox();
             button11 = new Button();
             textBox12 = new TextBox();
@@ -81,7 +82,6 @@
             button4 = new Button();
             textBox10 = new TextBox();
             label16 = new Label();
-            textBox14 = new TextBox();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -153,9 +153,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(696, 78);
             label2.Name = "label2";
-            label2.Size = new Size(83, 20);
+            label2.Size = new Size(74, 20);
             label2.TabIndex = 8;
-            label2.Text = "File History";
+            label2.Text = "File select";
             // 
             // label3
             // 
@@ -258,9 +258,9 @@
             label6.AutoSize = true;
             label6.Location = new Point(480, 159);
             label6.Name = "label6";
-            label6.Size = new Size(158, 20);
+            label6.Size = new Size(139, 20);
             label6.TabIndex = 23;
-            label6.Text = "Robot operation point";
+            label6.Text = "ロボット動作点データ";
             label6.Click += label6_Click;
             // 
             // label7
@@ -342,7 +342,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { calculateToolStripMenuItem, exportCSVToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(960, 28);
+            menuStrip1.Size = new Size(959, 28);
             menuStrip1.TabIndex = 35;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -356,8 +356,8 @@
             // exportCSVToolStripMenuItem
             // 
             exportCSVToolStripMenuItem.Name = "exportCSVToolStripMenuItem";
-            exportCSVToolStripMenuItem.Size = new Size(99, 24);
-            exportCSVToolStripMenuItem.Text = "Export .CSV";
+            exportCSVToolStripMenuItem.Size = new Size(55, 24);
+            exportCSVToolStripMenuItem.Text = "分散";
             exportCSVToolStripMenuItem.Click += exportCSVToolStripMenuItem_Click;
             // 
             // panel1
@@ -385,9 +385,17 @@
             panel1.Controls.Add(label5);
             panel1.Location = new Point(0, 31);
             panel1.Name = "panel1";
-            panel1.Size = new Size(960, 574);
+            panel1.Size = new Size(959, 574);
             panel1.TabIndex = 36;
             panel1.Visible = false;
+            // 
+            // textBox14
+            // 
+            textBox14.Location = new Point(461, 518);
+            textBox14.Name = "textBox14";
+            textBox14.Size = new Size(125, 27);
+            textBox14.TabIndex = 23;
+            textBox14.Visible = false;
             // 
             // textBox13
             // 
@@ -395,15 +403,17 @@
             textBox13.Name = "textBox13";
             textBox13.Size = new Size(125, 27);
             textBox13.TabIndex = 22;
+            textBox13.Visible = false;
             // 
             // button11
             // 
-            button11.Location = new Point(792, 104);
+            button11.Location = new Point(49, 518);
             button11.Name = "button11";
             button11.Size = new Size(94, 29);
             button11.TabIndex = 21;
             button11.Text = "button11";
             button11.UseVisualStyleBackColor = true;
+            button11.Visible = false;
             button11.Click += button11_Click;
             // 
             // textBox12
@@ -435,7 +445,7 @@
             // button10
             // 
             button10.BackgroundImageLayout = ImageLayout.None;
-            button10.Location = new Point(614, 121);
+            button10.Location = new Point(614, 119);
             button10.Name = "button10";
             button10.Size = new Size(59, 29);
             button10.TabIndex = 18;
@@ -452,6 +462,7 @@
             dataGridView1.Size = new Size(614, 306);
             dataGridView1.TabIndex = 17;
             dataGridView1.Visible = false;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // textBox11
             // 
@@ -502,7 +513,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(712, 130);
+            label15.Location = new Point(712, 126);
             label15.Name = "label15";
             label15.Size = new Size(104, 20);
             label15.TabIndex = 9;
@@ -511,7 +522,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(61, 130);
+            label14.Location = new Point(61, 126);
             label14.Name = "label14";
             label14.Size = new Size(120, 20);
             label14.TabIndex = 8;
@@ -557,6 +568,7 @@
             listBox3.ScrollAlwaysVisible = true;
             listBox3.Size = new Size(612, 304);
             listBox3.TabIndex = 3;
+            listBox3.SelectedIndexChanged += listBox3_SelectedIndexChanged;
             // 
             // textBox2
             // 
@@ -573,9 +585,9 @@
             label5.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(398, 2);
             label5.Name = "label5";
-            label5.Size = new Size(140, 31);
+            label5.Size = new Size(64, 31);
             label5.TabIndex = 0;
-            label5.Text = "Export .CSV";
+            label5.Text = "分散";
             // 
             // button4
             // 
@@ -607,19 +619,12 @@
             label16.Text = "Result";
             label16.Click += label16_Click;
             // 
-            // textBox14
-            // 
-            textBox14.Location = new Point(461, 518);
-            textBox14.Name = "textBox14";
-            textBox14.Size = new Size(125, 27);
-            textBox14.TabIndex = 23;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(959, 604);
+            ClientSize = new Size(959, 598);
             Controls.Add(panel1);
             Controls.Add(label4);
             Controls.Add(label13);

@@ -147,9 +147,26 @@ namespace MachineCalculator
                     string length = parts[1].Replace("mm", "").Trim();
 
                     lengths.Add(length);
+
+                    pos = Regex.Replace(pos, @"[^\d.-]", "");
+                    length = Regex.Replace(length, @"[^\d.-]", "");
+
+                    double pos2, length2;
+                    if (double.TryParse(pos, out pos2) && double.TryParse(length, out length2))
+                    {
+                        double h2length2 = -length2 / 2;
+
+                        if (pos2 > h2length2)
+                        {
+                            textBox7.Text = "0";
+                        }
+                        else
+                        {
+                            textBox7.Text = "5";
+                        }
+                    }
                 }
             }
-
 
             double totalValueCal = 0;
 
@@ -362,6 +379,54 @@ namespace MachineCalculator
                 comboBox1.SelectedIndex = comboBox1.Items.Count - 1; //choose last choice
             }
         }
+
+        private void UpdateTable()
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+
+            dataGridView1.AllowUserToAddRows = false;
+
+            if (listBox3.Items.Count == 0) return;
+
+            string[] columnHeaders = { "名称", "部品番号", "材幅", "材成", "材長", "時間1（S)", "時間2（S)" };
+
+            string firstRow = listBox3.Items[0].ToString();
+            string[] columns = firstRow.Split(',');
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
+                dataGridView1.Columns.Add("Column" + i, headerName);
+            }
+
+            foreach (var item in listBox3.Items)
+            {
+                string[] rowData = item.ToString().Split(',');
+                dataGridView1.Rows.Add(rowData);
+            }
+
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                bool isEmpty = true;
+
+                foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
+                {
+                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                    {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+
+                if (isEmpty)
+                {
+                    dataGridView1.Rows.RemoveAt(i);
+                }
+            }
+
+            dataGridView1.AllowUserToAddRows = true;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -536,49 +601,7 @@ namespace MachineCalculator
 
         private void label6_Click(object sender, EventArgs e)
         {
-            string mathValue = "math";
-            string valueToAdd = "";
 
-            foreach (var item in listBox3.Items)
-            {
-                string itemText = item.ToString();
-                int indexOfEqualSign = itemText.IndexOf("=");
-
-                if (indexOfEqualSign >= 0)
-                {
-                    string leftSide = itemText.Substring(0, indexOfEqualSign).Trim();
-                    string rightSide = itemText.Substring(indexOfEqualSign + 1).Trim();
-
-                    if (leftSide.Equals(mathValue))
-                    {
-                        valueToAdd = rightSide;
-                        break;
-                    }
-                }
-            }
-
-            if (!string.IsNullOrEmpty(valueToAdd))
-            {
-                for (int i = 0; i < listBox3.Items.Count; i++)
-                {
-                    string itemText = listBox3.Items[i].ToString();
-                    int indexOfEqualSign = itemText.IndexOf("=");
-
-                    if (indexOfEqualSign >= 0)
-                    {
-                        string leftSide = itemText.Substring(0, indexOfEqualSign).Trim();
-                        if (leftSide.Equals(mathValue))
-                        {
-                            listBox3.Items[i] = itemText + " " + valueToAdd;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("ไม่พบค่า 'math' ในรายการ.");
-            }
         }
         private void calculateToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -617,51 +640,7 @@ namespace MachineCalculator
                 button8.Visible = true;
             }
 
-
-            dataGridView1.Columns.Clear();
-            dataGridView1.Rows.Clear();
-
-            dataGridView1.AllowUserToAddRows = false;
-
-            if (listBox3.Items.Count == 0) return;
-
-            string[] columnHeaders = { "名称", "部品番号", "材幅", "材成", "材長", "時間1（S)", "時間2（S)" };
-
-            string firstRow = listBox3.Items[0].ToString();
-            string[] columns = firstRow.Split(',');
-
-            for (int i = 0; i < columns.Length; i++)
-            {
-                string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
-                dataGridView1.Columns.Add("Column" + i, headerName);
-            }
-
-            foreach (var item in listBox3.Items)
-            {
-                string[] rowData = item.ToString().Split(',');
-                dataGridView1.Rows.Add(rowData);
-            }
-
-            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
-            {
-                bool isEmpty = true;
-
-                foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
-                {
-                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
-                    {
-                        isEmpty = false;
-                        break;
-                    }
-                }
-
-                if (isEmpty)
-                {
-                    dataGridView1.Rows.RemoveAt(i);
-                }
-            }
-
-            dataGridView1.AllowUserToAddRows = true;
+            UpdateTable();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -747,52 +726,7 @@ namespace MachineCalculator
             listBox3.Items.Clear();
             listBox3.Items.AddRange(updatedItems.ToArray());
 
-            dataGridView1.Columns.Clear();
-            dataGridView1.Rows.Clear();
-
-            dataGridView1.AllowUserToAddRows = false;
-
-            if (listBox3.Items.Count == 0) return;
-
-            string[] columnHeaders = { "名称", "部品番号", "材幅", "材成", "材長", "時間1（S)", "時間2（S)" };
-
-            string firstRow = listBox3.Items[0].ToString();
-            string[] columns = firstRow.Split(',');
-
-            for (int i = 0; i < columns.Length; i++)
-            {
-                string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
-                dataGridView1.Columns.Add("Column" + i, headerName);
-            }
-
-            foreach (var item in listBox3.Items)
-            {
-                string[] rowData = item.ToString().Split(',');
-                dataGridView1.Rows.Add(rowData);
-            }
-
-            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
-            {
-                bool isEmpty = true;
-
-                foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
-                {
-                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
-                    {
-                        isEmpty = false;
-                        break;
-                    }
-                }
-
-                if (isEmpty)
-                {
-                    dataGridView1.Rows.RemoveAt(i);
-                }
-            }
-
-            dataGridView1.AllowUserToAddRows = true;
-
-
+            UpdateTable();
         }
 
 
@@ -899,55 +833,6 @@ namespace MachineCalculator
             textBox11.Text = finalresult.ToString("F2");
             double standardDeviation = Math.Sqrt(finalresult);
             textBox12.Text = standardDeviation.ToString("F2");
-
-
-
-            dataGridView1.Columns.Clear();
-            dataGridView1.Rows.Clear();
-
-            dataGridView1.AllowUserToAddRows = false;
-
-            if (listBox3.Items.Count == 0) return;
-
-            string[] columnHeaders = { "名称", "部品番号", "材幅", "材成", "材長", "時間1（S)", "時間2（S)" };
-
-            string firstRow = listBox3.Items[0].ToString();
-            string[] columns = firstRow.Split(',');
-
-            for (int i = 0; i < columns.Length; i++)
-            {
-                string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
-                dataGridView1.Columns.Add("Column" + i, headerName);
-            }
-
-            foreach (var item in listBox3.Items)
-            {
-                string[] rowData = item.ToString().Split(',');
-                dataGridView1.Rows.Add(rowData);
-            }
-
-            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
-            {
-                bool isEmpty = true;
-
-                foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
-                {
-                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
-                    {
-                        isEmpty = false;
-                        break;
-                    }
-                }
-
-                if (isEmpty)
-                {
-                    dataGridView1.Rows.RemoveAt(i);
-                }
-            }
-
-            dataGridView1.AllowUserToAddRows = true;
-
-
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -965,51 +850,6 @@ namespace MachineCalculator
             dataGridView1.Visible = !dataGridView1.Visible;
             listBox3.Visible = !listBox3.Visible;
             button10.Text = (button10.Text == "Table") ? "Log" : "Table";
-
-            //dataGridView1.Columns.Clear();
-            //dataGridView1.Rows.Clear();
-
-            //dataGridView1.AllowUserToAddRows = false;
-
-            //if (listBox3.Items.Count == 0) return;
-
-            //string[] columnHeaders = { "ชื่อ", "รหัส", "ค่า1", "ค่า2", "ค่า3", "ค่า4", "ค่า5" };
-
-            //string firstRow = listBox3.Items[0].ToString();
-            //string[] columns = firstRow.Split(',');
-
-            //for (int i = 0; i < columns.Length; i++)
-            //{
-            //    string headerName = i < columnHeaders.Length ? columnHeaders[i] : "คอลัมน์ " + i;
-            //    dataGridView1.Columns.Add("Column" + i, headerName);
-            //}
-
-            //foreach (var item in listBox3.Items)
-            //{
-            //    string[] rowData = item.ToString().Split(',');
-            //    dataGridView1.Rows.Add(rowData);
-            //}
-
-            //for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
-            //{
-            //    bool isEmpty = true;
-
-            //    foreach (DataGridViewCell cell in dataGridView1.Rows[i].Cells)
-            //    {
-            //        if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
-            //        {
-            //            isEmpty = false;
-            //            break;
-            //        }
-            //    }
-
-            //    if (isEmpty)
-            //    {
-            //        dataGridView1.Rows.RemoveAt(i);
-            //    }
-            //}
-
-            //dataGridView1.AllowUserToAddRows = true;
         }
 
         private void textBox10_TextChanged_1(object sender, EventArgs e)
@@ -1070,6 +910,16 @@ namespace MachineCalculator
             textBox13.Text = finalresult.ToString("F2");
             double standardDeviation = Math.Sqrt(finalresult);
             textBox14.Text = standardDeviation.ToString("F2");
+        }
+
+        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
