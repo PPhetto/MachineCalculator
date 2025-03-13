@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
 
 namespace MachineCalculator
 {
@@ -133,6 +134,36 @@ namespace MachineCalculator
                         //MessageBox.Show(Dvalue);
                     }
                 }
+
+                //if (line.Contains("【点  数        】"))
+                //{
+                //    string[] pathnew = line.Split(new char[] { '】', '点' }, StringSplitOptions.RemoveEmptyEntries);
+
+                //    if (pathnew.Length > 0)
+                //    {
+                //        int patha = Convert.ToInt32(pathnew[2]);
+                //        double pathah = (double)patha / 100;
+                //        textBox3.Text = pathah.ToString("F2");
+                //        int pathb = 209 - patha;
+                //        textBox4.Text = pathb.ToString();
+                //    }
+                //}
+
+                //if (line.Contains("【断面          】"))
+                //{
+                //    string[] part = line.Split(new char[] { '】', ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                //    if (part.Length > 0)
+                //    {
+                //        double path = Convert.ToDouble(part[1].Replace("mm","".Trim()));
+                //        double path2 = Convert.ToDouble(part[2].Replace("mm", "".Trim()));
+
+                //        double patha = path / 100;
+                //        double pathb = path2 - path;
+                //        textBox3.Text = patha.ToString();
+                //        textBox4.Text = pathb.ToString();
+                //    }
+                //}
             }
 
             string targetLine = lines.FirstOrDefault(line => line.Contains("材料先端位置"));
@@ -365,6 +396,54 @@ namespace MachineCalculator
             }
         }
 
+        private void CalculateTotal2()
+        {
+            try
+            {
+                double P, A, B, C, D, E, F, G, totalP = 0;
+                double.TryParse(textBox3.Text, out A);
+                double.TryParse(textBox4.Text, out B);
+                double.TryParse(textBox5.Text, out C);
+                double.TryParse(textBox6.Text, out D);
+                double.TryParse(textBox7.Text, out E);
+                double.TryParse(textBox8.Text, out F);
+                double.TryParse(textBox9.Text, out G);
+                //double P;
+                //double A = double.Parse(textBox3.Text);
+                //double B = double.Parse(textBox4.Text);
+                //double C = double.Parse(textBox5.Text);
+                //double D = double.Parse(textBox6.Text);
+                //double E = double.Parse(textBox7.Text);
+                //double F = double.Parse(textBox8.Text); // length * (1 / 1600)
+                //double G = double.Parse(textBox9.Text);
+
+                //double totalP = 0;
+
+                foreach (var item in listBox2.Items)
+                {
+                    string itemText = item.ToString();
+                    int indexOfEqualSign = itemText.IndexOf("=");
+
+                    if (indexOfEqualSign >= 0)
+                    {
+                        string valueAfterEqualSign = itemText.Substring(indexOfEqualSign + 1).Trim();
+
+                        if (double.TryParse(valueAfterEqualSign, out double parsedValue))
+                        {
+                            P = parsedValue * A + B + C + D + E + F + G;
+                            totalP += P;
+                        }
+                    }
+                }
+
+                textBox10.Text = totalP.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
         private void UpdateComboBox()
         {
             comboBox1.Items.Clear();
@@ -560,28 +639,13 @@ namespace MachineCalculator
                     currentIndex++;
                     continue;
                 }
-
-                foreach (var item in listBox2.Items)
-                {
-                    string itemText = item.ToString();
-                    int indexOfEqualSign = itemText.IndexOf("=");
-
-                    if (indexOfEqualSign >= 0)
-                    {
-                        string valueAfterEqualSign = itemText.Substring(indexOfEqualSign + 1).Trim();
-                        double parsedValue = Convert.ToDouble(valueAfterEqualSign);
-                        P = parsedValue * A + B;
-                        totalP += P;
-                    }
-                }
-
-                double calculatedValue = totalP + C * nnn + D + E * nnn + F + G;
+                CalculateTotal();
                 //calculatedValue = Math.Round(calculatedValue);
                 string fileNameWithoutExtension = Nfile.Split('.')[0];
                 if (fileNameWithoutExtension.StartsWith("0"))
                 {
                     string modifiedFileName = fileNameWithoutExtension.Substring(1);
-                    listBox4.Items.Add(modifiedFileName + " = " + calculatedValue.ToString("F2"));
+                    listBox4.Items.Add(modifiedFileName + " = " + textBox10.Text);
                 }
 
                 currentIndex++;
@@ -918,6 +982,102 @@ namespace MachineCalculator
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+
+            //double P;
+            //double A = double.Parse(textBox3.Text);
+            //double B = double.Parse(textBox4.Text);
+            //double C = double.Parse(textBox5.Text);
+            //double D = double.Parse(textBox6.Text);
+            //double E = double.Parse(textBox7.Text);
+            //double F = double.Parse(textBox8.Text);
+            //double G = double.Parse(textBox9.Text);
+
+            //int comboBoxCount = comboBox1.Items.Count;
+            //int currentIndex = 0;
+
+            //listBox4.Items.Clear();
+
+            ////while (currentIndex < comboBoxCount)
+            ////{
+            ////    comboBox1.SelectedIndex = currentIndex;
+
+            ////    string Nfile = comboBox1.Text;
+            ////    double totalP = 0;
+
+            ////    foreach (var item in listBox2.Items)
+            ////    {
+            ////        string itemText = item.ToString();
+            ////        int indexOfEqualSign = itemText.IndexOf("=");
+
+            ////        if (indexOfEqualSign >= 0)
+            ////        {
+            ////            string valueAfterEqualSign = itemText.Substring(indexOfEqualSign + 1).Trim();
+            ////            double parsedValue = Convert.ToDouble(valueAfterEqualSign);
+            ////            P = parsedValue * A + B;
+            ////            totalP += P;
+            ////        }
+            ////    }
+            ////    double calculatedValue = totalP + C * nnn + D + E * nnn + F + G;
+            ////    //calculatedValue = Math.Round(calculatedValue);
+            ////    string fileNameWithoutExtension = Nfile.Split('.')[0];
+            ////    if (fileNameWithoutExtension.StartsWith("0"))
+            ////    {
+            ////        string modifiedFileName = fileNameWithoutExtension.Substring(1);
+            ////        listBox4.Items.Add(modifiedFileName + " = " + calculatedValue.ToString("F2"));
+            ////    }
+
+            ////    currentIndex++;
+            ////}
+            //while (currentIndex < comboBoxCount)
+            //{
+            //    comboBox1.SelectedIndex = currentIndex;
+            //    string Nfile = comboBox1.Text;
+            //    double totalP = 0;
+            //    bool allMatch = true;
+
+            //    foreach (var item in listBox1.Items)
+            //    {
+            //        string line = item.ToString();
+            //        if (line.Contains("加工と基本加工"))
+            //        {
+            //            int colonIndex = line.IndexOf(':');
+            //            if (colonIndex >= 0)
+            //            {
+            //                string valueAfterColon = line.Substring(colonIndex + 1).Trim();
+            //                if (valueAfterColon != "RKeraba")
+            //                {
+            //                    allMatch = false;
+            //                    break;
+            //                }
+            //            }
+            //        }
+            //    }
+
+            //    if (!allMatch)
+            //    {
+            //        currentIndex++;
+            //        continue;
+            //    }
+            //    CalculateTotal2();
+            //    //calculatedValue = Math.Round(calculatedValue);
+            //    string fileNameWithoutExtension = Nfile.Split('.')[0];
+            //    if (fileNameWithoutExtension.StartsWith("0"))
+            //    {
+            //        string modifiedFileName = fileNameWithoutExtension.Substring(1);
+            //        listBox4.Items.Add(modifiedFileName + " = " + textBox10.Text);
+            //    }
+
+            //    currentIndex++;
+            //}
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

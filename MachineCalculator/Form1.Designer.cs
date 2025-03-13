@@ -342,7 +342,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { calculateToolStripMenuItem, exportCSVToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(959, 28);
+            menuStrip1.Size = new Size(926, 28);
             menuStrip1.TabIndex = 35;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -385,12 +385,13 @@
             panel1.Controls.Add(label5);
             panel1.Location = new Point(0, 31);
             panel1.Name = "panel1";
-            panel1.Size = new Size(959, 574);
+            panel1.Size = new Size(926, 573);
             panel1.TabIndex = 36;
             panel1.Visible = false;
             // 
             // textBox14
             // 
+            textBox14.Enabled = false;
             textBox14.Location = new Point(461, 518);
             textBox14.Name = "textBox14";
             textBox14.Size = new Size(125, 27);
@@ -399,6 +400,7 @@
             // 
             // textBox13
             // 
+            textBox13.Enabled = false;
             textBox13.Location = new Point(149, 518);
             textBox13.Name = "textBox13";
             textBox13.Size = new Size(125, 27);
@@ -407,6 +409,7 @@
             // 
             // button11
             // 
+            button11.Enabled = false;
             button11.Location = new Point(49, 518);
             button11.Name = "button11";
             button11.Size = new Size(94, 29);
@@ -624,7 +627,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(959, 598);
+            ClientSize = new Size(926, 605);
             Controls.Add(panel1);
             Controls.Add(label4);
             Controls.Add(label13);
